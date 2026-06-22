@@ -1,39 +1,41 @@
 # AutoBurp
 
-**AutoBurp** es una utilidad de despliegue automatizado, idempotente y de alta eficiencia diseñada para instalar la versión unificada de **Burp Suite** en sistemas Linux, evadiendo las restricciones de marketing y los portales de autenticación de PortSwigger.
+![Bash](https://img.shields.io/badge/Language-Bash-blue?logo=gnu-bash)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
-## 🛠️ ¿Cómo funciona?
+**AutoBurp** es una utilidad de despliegue automatizada, idempotente y de alta eficiencia diseñada para el despliegue optimizado de **Burp Suite** en entornos Linux. El script agiliza el flujo de trabajo al interactuar directamente con la infraestructura de descarga oficial de PortSwigger, eliminando la fricción de los formularios de registro repetitivos.
 
-El script utiliza una técnica de **omisión de lógica de negocio**. Al identificar el parámetro `product=desktop` en las rutas de descarga, el servidor backend omite el formulario de registro (Login Wall) y entrega directamente la URL firmada de Amazon CloudFront.
+## 🛠️ Requisitos previos
 
-1. **Reconocimiento:** Scraping dinámico del DOM para detectar la versión actual (`CurrentVersion`).
-2. **Infiltración:** Solicitud HTTP con `User-Agent` de navegador legítimo para evadir restricciones de bot-detection (AWS WAF).
-3. **Despliegue:** Instalación desatendida, cumplimiento FHS (Filesystem Hierarchy Standard) y creación de atajos de escritorio integrados.
+Para garantizar una ejecución exitosa, asegúrate de contar con las siguientes dependencias instaladas en tu sistema:
 
-## 🚀 Instalación rápida
+* **Bash** (Versión 4.0 o superior)
+* **curl**: Para la comunicación HTTP/HTTPS.
+* **sed / grep**: Para el procesamiento de texto y scraping del DOM.
+* **ca-certificates**: Para la validación de certificados SSL.
 
-1. **Clona el repositorio:**
+**Instalación de dependencias (Debian/Kali/Parrot):**
+
 ```bash
-git clone https://github.com/rodrigo47363/autoburp
+sudo apt update && sudo apt install -y curl sed grep ca-certificates
+
+```
+
+## 🚀 Instalación y Uso
+
+```bash
+# Clonar el repositorio
+git clone [https://github.com/rodrigo47363/autoburp](https://github.com/rodrigo47363/autoburp)
 cd autoburp
 
-```
-
-
-2. **Otorga permisos de ejecución:**
-```bash
+# Configurar permisos
 chmod +x autoburp.sh
 
-```
-
-
-3. **Ejecuta con privilegios elevados:**
-```bash
+# Ejecución (requiere privilegios root para despliegue en /opt)
 sudo ./autoburp.sh
 
 ```
-
-
 
 ## 📋 Especificaciones Técnicas
 
@@ -41,23 +43,26 @@ sudo ./autoburp.sh
 | --- | --- |
 | **Parsing** | RegEx PCRE (`\K`) para extracción atómica de versiones. |
 | **Bypass WAF** | Spoofing de `User-Agent` y gestión de redirecciones 302. |
-| **Integración** | Generación dinámica de `burpsuite.desktop` para Rofi/dmenu. |
-| **Idempotencia** | Reemplazo seguro mediante `ln -sf` y actualización de caché de iconos. |
+| **Integración** | Generación de `.desktop` compatible con XDG. |
+| **Idempotencia** | Reemplazo atómico mediante enlaces simbólicos (`ln -sf`). |
 
-## 🛡️ Notas de Seguridad
+## 🛡️ Notas de Seguridad y Ética
 
-Este script automatiza la descarga **oficial** desde los servidores de PortSwigger. No altera el binario original ni utiliza fuentes de terceros. El script está diseñado para ahorrar tiempo en entornos de auditoría, evitando la fricción de los formularios de registro repetitivos.
+AutoBurp automatiza la descarga de los binarios **oficiales** directamente desde los servidores de PortSwigger.
 
----
-
-## 📜 Licencia
-
-Este proyecto se distribuye bajo licencia de código abierto. Siéntete libre de contribuir o adaptar el script para otras arquitecturas (ARM64, etc.).
-
-**Autor:** Rodrigo
-**Contacto:** [rodrigovil@proton.me](https://www.google.com/search?q=mailto%3Arodrigovil%40proton.me)
-**Repositorio:** [https://github.com/rodrigo47363/autoburp](https://github.com/rodrigo47363/autoburp)
+* **Integridad:** No se modifican los binarios ni se utilizan fuentes de terceros.
+* **Propósito:** Esta herramienta ha sido desarrollada estrictamente para facilitar la configuración de entornos de auditoría, optimizando tiempos de despliegue en entornos de pruebas de penetración o laboratorios de seguridad.
 
 ---
 
-*Hecho para pentesters, por pentesters.*
+## 📜 Licencia y Contacto
+
+Proyecto distribuido bajo licencia MIT. Se fomenta la contribución para soporte de arquitecturas adicionales.
+
+**Autor:** Rodrigo Vil
+
+**Contacto:** [rodrigovil@proton.me](mailto:rodrigovil@proton.me)
+
+**Repositorio:** [github.com/rodrigo47363/autoburp](https://github.com/rodrigo47363/autoburp)
+
+---
